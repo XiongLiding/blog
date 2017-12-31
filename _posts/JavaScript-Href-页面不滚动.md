@@ -1,9 +1,9 @@
 ---
 title: 'JavaScript href="#" 页面不滚动'
 categories:
+  - 时光机
   - 快修
 tags:
-  - 时光机
   - JavaScript
 date: 2009-07-31 11:20:04
 ---

@@ -1,9 +1,8 @@
 ---
 title: Eclipse 编码
 categories:
-  - 快修
-tags:
   - 时光机
+  - 快修
 date: 2009-07-30
 ---
 
