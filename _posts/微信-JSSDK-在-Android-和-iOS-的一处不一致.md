@@ -4,7 +4,7 @@ categories:
   - 微信
 tags:
   - 微信
-  - JSSK
+  - JSSDK
 date: 2015-04-22 22:15:55
 ---
 

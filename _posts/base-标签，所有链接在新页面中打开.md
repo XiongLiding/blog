@@ -2,9 +2,9 @@
 title: base 标签，所有链接在新页面中打开
 categories:
   - 时光机
-tags:
   - 页面设计
-  - html
+tags:
+  - HTML
 date: 2010-05-29 22:26:43
 ---
 
