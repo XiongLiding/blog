@@ -1,6 +1,6 @@
 ---
 title: Android中用ConnectBot替代超级终端保持OpenVPN的连接状态
-date: 2017-02-10
+date: 2010-02-10
 categories:
   - 时光机
   - Android

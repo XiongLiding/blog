@@ -2,9 +2,9 @@
 title: CodeIgniter MY_Model
 date: 2009-07-19
 categories:
+  - 时光机
   - 程序设计
 tags:
-  - 时光机
   - PHP
   - CodeIgniter
 ---
