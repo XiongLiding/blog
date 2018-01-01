@@ -29,7 +29,7 @@ PushState 方式就没有这个问题，可以直接用 HTTP 302 重定向过来
 
 ###### 修改前的代码
 
-```javascript
+```JavaScript
 function runWx(api, fn, loadError) {  
     if (typeof api === 'string') {
         api = [api];
@@ -81,7 +81,7 @@ function runWx(api, fn, loadError) {
 
 先简单展示一下这个 runWx 函数的用法：
 
-```javascript
+```JavaScript
 // 当需要用到特定的微信接口时，运行 runWx
 runWx(['uploadImage', 'chooseImage'], function (wx) {  
     // 可以在这里使用 wx.uploadImage 和 wx.chooseImage 功能
@@ -103,7 +103,7 @@ runWx 做了这么几件事：
 
 ###### 修改后的代码
 
-```javascript
+```JavaScript
 // 解决部分机型 pushState 不能正确改变地址导致授权失败
 
 // 在第一次打开页面时加载此文件，记录当时的地址作为原始地址
@@ -156,6 +156,7 @@ function runWx(api, fn, loadError, tryOrigin) {
         });
     }, loadError);
 }
+```
 
 和原来相比，主要变化有：
 
