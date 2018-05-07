@@ -1,5 +1,5 @@
 ---
-title: 简单粗暴也是一种美——用 Prettier 处理 Pug 文件
+title: 用 Prettier 处理 Pug 文件
 date: 2018-02-11 09:32:17
 categories:
   - DevOps
