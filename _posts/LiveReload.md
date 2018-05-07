@@ -5,6 +5,8 @@ tags:
 categories: DevOps
 ---
 
+![来自stackoverflow.com](http://p1kp5xfj8.bkt.clouddn.com/ziR5h.png)
+
 之前实现了自己的编译工具 [dev.js](/2018/02/13/dev-js) ，用了快三个月，感觉良好，可以彻底把 gulp 甩掉了。不过上次也留下一个小尾巴，整合自动重载功能。
 
 最初的打算是用 live.js 这个方案，因为无需改动自己的代码，只要把 live.js 加载到网页中就可以。不过实际用起来，发现还是有点问题。live.js 本身功能是正常的，但其机制是轮询，会在 network 里留下很多请求记录，调试时看起来很乱。
@@ -19,14 +21,14 @@ SSE 的全称是 Server-sent events，也就是服务器推送事件，SSE 走�
 SSE 非常像以前用隐藏的 iframe 实现长连接(long-polling)的加强版，客户端和服务器建立连接后，连接一直保持，并等待服务器返回数据，在一个连接中服务器可以多次发送数据给客户端，如果连接意外断开，客户端还会自动发起重连。SSE 的事件机制也简化了解析服务器发来的数据的过程。
 
 # LiveReload
-LiveReload 是指服务器上的代码发生变化后，自动刷新浏览器，这样就避免了手动切换到浏览器刷新，再回到编辑器这样的来回切换。如果屏幕够大，两个程序平铺开来，就可以只管在编辑器打字，然后顺便瞧瞧浏览器上的变化，在调整样式尤其高效。
+LiveReload 是指服务器上的代码发生变化后，自动刷新浏览器，在开发阶段，这样做可以避免手动切换到浏览器刷新，再回到编辑器这样的来回切换。如果屏幕够大，两个程序平铺开来，就可以只管在编辑器打字，然后顺便瞧瞧浏览器上的变化，在调整样式时尤其高效。
 
 再进一步，叫做 HotReload，不刷新整个网页，只更新发生变化的部分代码，同步效率更高，不过这个实现起来就比较复杂，而且状态处理不好就会出现各种问题。
 
 # 实现
 接下来就在 dev.js 的基础上实现 LiveReload 功能，首先在原先的编译结果中，加入一行代码建立 SSE 连接
 
-```
+```JavaScript
 http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/javascript');
     res.setHeader('Accept-Charset', 'utf-8');
@@ -45,7 +47,7 @@ http.createServer((req, res) => {
 
 上面的代码发起了连接，服务器也得准备好相应的代码进行对接
 
-```
+```JavaScript
 http.createServer((req, res) => {
 +   if (req.url == '/live') {
 +        live = res;
@@ -71,7 +73,7 @@ http.createServer((req, res) => {
 
 这里把 res 保存在了全局的 live 变量中（不是一个好的做法，但够简单），后续想发送数据时，只要调用 live.send() 就可以了。将其稍加包装，做成一个函数
 
-```
+```JavaScript
 const clientReload = () => {
     if (live) {
         live.end('event: reload\ndata:{}\n\n');
@@ -79,5 +81,16 @@ const clientReload = () => {
     }
 };
 ```
+
+这里发送的数据是
+
+```
+event: reload
+data: {}
+```
+
+两个换行表示发送完毕，
+event 中的 reload 与 addEventListener 中监听的事件名称对应,
+data 是相关的数据，虽然没有数据，但是如果没有这部分，客户端的相关事件就无法触发。
 
 这样就搞定了，然后在监听文件变化的代码中，等每次编译结束就调用 `clientReload()` ，即可刷新浏览器中的界面。
